@@ -80,26 +80,26 @@ public class ShowList {
 	}
 	
 	// j) replaceAtIndex method
-	public void replaceAtIndex(TVShow obj, int i) {
-		if (i < 0 || i > (size - 1)) {
+	public void replaceAtIndex(TVShow tvShow, int index) {
+		if (index < 0 || index > (size - 1)) {
 			throw new NoSuchElementException("There is no such index"); 		// a reviser
 		}
-		else if (i == 0){
-			ShowNode newNode = new ShowNode(obj, null);
+		else if (index == 0){
+			ShowNode newNode = new ShowNode(tvShow, null);
 			newNode.pointer = head.pointer;
 			head = newNode;							
 		}
 		else {
-			ShowNode newNode = new ShowNode (obj, null);
-			ShowNode previous = head;
+			ShowNode newNode = new ShowNode (tvShow, null);
+			ShowNode previousNode = head;
 			int count = 0;
-			while (count < (i - 1)) {
-				previous = previous.pointer;
+			while (count < (index - 1)) {
+				previousNode = previousNode.pointer;
 				count++;
 			}
-			ShowNode toBeReplaced = previous.pointer;
+			ShowNode toBeReplaced = previousNode.pointer;
 			newNode.pointer = toBeReplaced.pointer;
-			previous.pointer = newNode;				// should we delete the node that was replaced aka do toBeReplaced = null;
+			previousNode.pointer = newNode;				// should we delete the node that was replaced aka do toBeReplaced = null;
 		}
 	}
 	
@@ -130,14 +130,6 @@ public class ShowList {
 		// what 2 lists??
 	
 	
-	
-	
-	
-	
-
-
-
-
 
 
 	// a) Inner class
