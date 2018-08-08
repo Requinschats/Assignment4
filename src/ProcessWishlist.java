@@ -35,30 +35,53 @@ public class ProcessWishlist {
 
     }
 
-    public static void generateArrayListOfTVShows(Scanner scanner, ArrayList<TVShow> interestShows) {
+    public static void generateArrayListOfWatchinjTVShows(Scanner scanner,ArrayList<TVShow> watchingShows, ArrayList<TVShow> interestShows) {
         String line;
         int lineCount = 0;
         String showID = "";
         String showName = "";
         double startTime = 0;
         double endTime = 0;
+        boolean watchingToWhishlist = false;
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
-            if (lineCount % 4 == 0) {
-                showID = line.substring(0, line.indexOf(" "));
-                showName = line.substring(line.indexOf(" "), line.length());
-                lineCount++;
-            } else if (lineCount % 4 == 1) {
-                startTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
-                lineCount++;
-            } else if (lineCount % 4 == 2) {
-                endTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
-                lineCount++;
-            } else {
-                TVShow temporary = new TVShow(showID, showName, startTime, endTime);
-                interestShows.add(temporary);
+            if (line.startsWith("Wishlist")) {
+                watchingToWhishlist = true;
             }
 
+            if (!watchingToWhishlist) {
+
+                if (lineCount % 4 == 0) {
+                    showID = line.substring(0, line.indexOf(" "));
+                    showName = line.substring(line.indexOf(" "), line.length());
+                    lineCount++;
+                } else if (lineCount % 4 == 1) {
+                    startTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
+                    lineCount++;
+                } else if (lineCount % 4 == 2) {
+                    endTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
+                    lineCount++;
+                } else {
+                    TVShow temporary = new TVShow(showID, showName, startTime, endTime);
+                    interestShows.add(temporary);
+                }
+
+            }else{
+                if (lineCount % 4 == 0) {
+                    showID = line.substring(0, line.indexOf(" "));
+                    showName = line.substring(line.indexOf(" "), line.length());
+                    lineCount++;
+                } else if (lineCount % 4 == 1) {
+                    startTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
+                    lineCount++;
+                } else if (lineCount % 4 == 2) {
+                    endTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
+                    lineCount++;
+                } else {
+                    TVShow temporary = new TVShow(showID, showName, startTime, endTime);
+                    watchingShows.add(temporary);
+                }
+            }
         }
 
     }
@@ -110,8 +133,7 @@ public class ProcessWishlist {
         //c)
         ArrayList <TVShow> interestShows = new ArrayList<>();
         ArrayList <TVShow> watchingShows = new ArrayList<>();
-        generateArrayListOfTVShows(watchingShows,interestShows);
-        generateArrayListOfTVShows(interestScanner,interestShows);
+        generateArrayListOfWatchinjTVShows(interestScanner, watchingShows, interestShows);
     }
 
 }
