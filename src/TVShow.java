@@ -81,7 +81,7 @@ public class TVShow implements Watchable, Cloneable {
 		return (obj.getEndTime() == endTime && obj.getStartTime() == startTime && obj.getShowName() == showName);
 	}
 
-	// e)
+	// e) isOnSameTime method
 	public String isOnSameTime(TVShow S) {
 		if (this.getStartTime() == S.getStartTime() && this.getEndTime() == S.getEndTime()) {
 			return ("Same time");
