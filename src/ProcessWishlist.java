@@ -132,7 +132,7 @@ public class ProcessWishlist {
         // a)
         ShowList TVGuide = new ShowList();
         ShowList interest = new ShowList();
-        TVShow[] TVShowsInGuide = new TVShow[100];
+        TVShow[] TVShowsInGuide = new TVShow[1000];
 
         File interestFile = new File("Interest.txt"); //TODO should paths be a string variable from input?
         File TVGuideFile = new File("TVGuide.txt");
@@ -158,17 +158,17 @@ public class ProcessWishlist {
         }
 
         //c)
-        ArrayList<TVShow> interestShows = new ArrayList<>();
+        ArrayList<TVShow> wishListShows = new ArrayList<>();
         ArrayList<TVShow> watchingShows = new ArrayList<>();
 
-        generateInterestShows(interestScanner, watchingShows, interestShows);
+        generateInterestShows(interestScanner, watchingShows, wishListShows);
 
-        fullFilTVShowsInformationFromTVGuide(interestShows, TVShowsInGuide);
+        fullFilTVShowsInformationFromTVGuide(wishListShows, TVShowsInGuide);
         fullFilTVShowsInformationFromTVGuide(watchingShows, TVShowsInGuide);
 
         adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, TVShowsInGuide);
 
-        printResultOnInterest(interestShows, TVShowsInGuide);
+        printResultOnInterest(wishListShows, TVShowsInGuide);
 
 
         //d)
