@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.*;
 import java.util.Set;
 
+import static java.lang.System.out;
+
 public class ProcessWishlist {
 
     public static void generateArrayOfTVShows(Scanner scanner, TVShow[] TVShows) {
@@ -103,12 +105,23 @@ public class ProcessWishlist {
             }
         }
         TVShow[] tempArray = new TVShow[newLength];
-        for(int i=0; i<TVShowsInGuide.length; i++){
-            if(TVShowsInGuide[i]!=null){
-                tempArray[i]=TVShowsInGuide[i];
+        for (int i = 0; i < TVShowsInGuide.length; i++) {
+            if (TVShowsInGuide[i] != null) {
+                tempArray[i] = TVShowsInGuide[i];
             }
         }
         TVShowsInGuide = Arrays.copyOf(tempArray, newLength);
+    }
+
+    public static void printResultOnInterest(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
+
+        for (TVShow tvShow : TVShowsInGuide) {
+            if (interestShows.contains(tvShow)) {
+                out.println(" The user can watch show: " + tvShow.getShowID());
+            } else {
+                out.println(" The user can not watch show: " + tvShow.getShowID());
+            }
+        }
     }
 
 
@@ -116,12 +129,12 @@ public class ProcessWishlist {
 
         //IV)
 
-       // a)
+        // a)
         ShowList TVGuide = new ShowList();
         ShowList interest = new ShowList();
         TVShow[] TVShowsInGuide = new TVShow[100];
 
-        File interestFile = new File("Interest.txt");
+        File interestFile = new File("Interest.txt"); //TODO should paths be a string variable from input?
         File TVGuideFile = new File("TVGuide.txt");
 
         Scanner TVGuideScanner = null;
@@ -153,15 +166,14 @@ public class ProcessWishlist {
         fullFilTVShowsInformationFromTVGuide(interestShows, TVShowsInGuide);
         fullFilTVShowsInformationFromTVGuide(watchingShows, TVShowsInGuide);
 
-        adjustTVGuideToContainOnlyPossibleTVShows(watchingShows,TVShowsInGuide);
+        adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, TVShowsInGuide);
+
+        printResultOnInterest(interestShows, TVShowsInGuide);
 
 
-        for (TVShow tvShow:TVShowsInGuide){
-            if ()
+        //d)
 
-
-        }
-
+        //e)
 
     }
 
