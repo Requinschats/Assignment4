@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.*;
 import java.util.Set;
@@ -17,16 +18,18 @@ public class ProcessWishlist {
         double startTime = 0;
         double endTime = 0;
         while (scanner.hasNextLine()) {
+            out.println("line count: "+lineCount);
             line = scanner.nextLine();
             if (lineCount % 4 == 0) {
+                out.println("line: "+line);
                 showID = line.substring(0, line.indexOf(" "));
                 showName = line.substring(line.indexOf(" "), line.length());
                 lineCount++;
             } else if (lineCount % 4 == 1) {
-                startTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
+                startTime = Double.parseDouble(line.substring(line.indexOf(" "), line.length()));
                 lineCount++;
             } else if (lineCount % 4 == 2) {
-                endTime = Double.parseDouble(line.substring(0, line.indexOf(" ")));
+                endTime = Double.parseDouble(line.substring(line.indexOf(" "), line.length()));
                 lineCount++;
             } else {
                 TVShows[(lineCount + 1) / 4] = new TVShow(showID, showName, startTime, endTime);
@@ -141,10 +144,15 @@ public class ProcessWishlist {
         Scanner interestScanner = null;
 
         try {
-            TVGuideScanner = new Scanner(new FileInputStream(TVGuideFile));
-            interestScanner = new Scanner(new FileInputStream(interestFile));
+            out.println(TVGuideFile.getAbsolutePath());
+            TVGuideScanner = new Scanner(TVGuideFile);
+            out.println("good");
+            interestScanner = new Scanner(interestFile);
         } catch (FileNotFoundException e) {
             System.err.println(e.getStackTrace());
+            out.println("files not found");
+        }catch (IOException i){
+            i.getMessage();
         }
 
         //b)
