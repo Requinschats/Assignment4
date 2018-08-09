@@ -81,8 +81,10 @@ public class ProcessWishlist {
 
     public static void fullFilTVShowsInformationFromTVGuide(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
         for (TVShow tvShow : TVShowsInGuide) {
-            if (interestShows.contains(tvShow.getShowID())) {
-                interestShows.set(interestShows.indexOf(interestShows.contains(tvShow.getShowID())), tvShow);
+            if (tvShow != null) {
+                if (interestShows.contains(tvShow.getShowID())) {
+                    interestShows.set(interestShows.indexOf(interestShows.contains(tvShow.getShowID())), tvShow);
+                }
             }
         }
     }
