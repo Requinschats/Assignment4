@@ -50,7 +50,7 @@ public class ProcessWishlist {
         boolean watchingToWhishlist = false;
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
-            if (line.startsWith("Wishlist")) {
+            if (line.toString().equals("Wishlist")) {
                 watchingToWhishlist = true;
             }
 
@@ -73,6 +73,24 @@ public class ProcessWishlist {
                     interestShows.add(temporary);
                     lineCount++;
                 }
+            }else{
+                if (lineCount % 3 == 1) {
+                    showID = line;
+                    TVShow temporary = new TVShow(showID, showName, startTime, endTime);
+                    watchingShows.add(temporary);
+                    lineCount++;
+                } else if (lineCount % 3 == 2) {
+                    showID = line;
+                    TVShow temporary = new TVShow(showID, showName, startTime, endTime);
+                    watchingShows.add(temporary);
+                    lineCount++;
+
+                } else {
+                    showID = line;
+                    TVShow temporary = new TVShow(showID, showName, startTime, endTime);
+                    watchingShows.add(temporary);
+                    lineCount++;
+                }
             }
 
         }
@@ -82,13 +100,19 @@ public class ProcessWishlist {
     public static void fullFilTVShowsInformationFromTVGuide(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
         for (TVShow tvShow : TVShowsInGuide) {
             if (tvShow != null) {
-                if (interestShows.contains(tvShow.getShowID())) {
-                    interestShows.set(interestShows.indexOf(tvShow), tvShow); //TODO replace with: interestShows.set(interestShows.indexOf(tvShow), tvShow);
+                if (interestShows.stream().filter(o -> o.getShowID().equals(tvShow.getShowID())).findFirst().isPresent()) {
+                    interestShows.set(interestShows.indexOf(interestShows.stream().filter(o -> o.getShowID().equals(tvShow.getShowID())))+1, tvShow);
+                    out.println("match");
+                }
+                else{
+                    out.println("not a match");
                 }
             }
         }
     }
 
+
+    //TODO content of TVShowsInGuide not right
 
     public static void adjustTVGuideToContainOnlyPossibleTVShows(ArrayList<TVShow> watchingShows, TVShow[] TVShowsInGuide) {
 
@@ -97,10 +121,11 @@ public class ProcessWishlist {
             double highBound = tvShowWatching.getEndTime();
 
             for (TVShow tvShowInGuide : TVShowsInGuide) {
-                if ((tvShowInGuide.getStartTime() < highBound && tvShowInGuide.getStartTime() >= lowBound) || (tvShowInGuide.getEndTime() > lowBound && tvShowInGuide.getEndTime() <= highBound)) {
-                    tvShowInGuide = null;
+                if(tvShowInGuide!=null) {
+                    if ((tvShowInGuide.getStartTime() < highBound && tvShowInGuide.getStartTime() >= lowBound) || (tvShowInGuide.getEndTime() > lowBound && tvShowInGuide.getEndTime() <= highBound)) {
+                        tvShowInGuide = null; 
+                    }
                 }
-
             }
         }
         int newLength = 0;
