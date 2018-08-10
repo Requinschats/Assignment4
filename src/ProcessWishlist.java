@@ -129,7 +129,7 @@ public class ProcessWishlist {
             for (TVShow tvShowInGuide : TVShowsInGuide) {
                 if(tvShowInGuide!=null) {
                     if ((tvShowInGuide.getStartTime() < highBound && tvShowInGuide.getStartTime() >= lowBound) || (tvShowInGuide.getEndTime() > lowBound && tvShowInGuide.getEndTime() <= highBound)) {
-                        tvShowInGuide = null; //this statement is never reached
+                       TVShowsInGuide[Arrays.asList(TVShowsInGuide).indexOf(tvShowInGuide)] = null; //this statement is never reached
                     }
                 }
             }
