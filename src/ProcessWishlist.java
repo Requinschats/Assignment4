@@ -83,7 +83,7 @@ public class ProcessWishlist {
         for (TVShow tvShow : TVShowsInGuide) {
             if (tvShow != null) {
                 if (interestShows.contains(tvShow.getShowID())) {
-                    interestShows.set(interestShows.indexOf(interestShows.contains(tvShow.getShowID())), tvShow);
+                    interestShows.set(interestShows.indexOf(tvShow), tvShow); //TODO replace with: interestShows.set(interestShows.indexOf(tvShow), tvShow);
                 }
             }
         }
@@ -109,8 +109,8 @@ public class ProcessWishlist {
                 newLength++;
             }
         }
-        TVShow[] tempArray = new TVShow[newLength];
-        for (int i = 0; i < TVShowsInGuide.length; i++) {
+        TVShow[] tempArray = new TVShow[newLength+1];
+        for (int i = 1; i < TVShowsInGuide.length; i++) {
             if (TVShowsInGuide[i] != null) {
                 tempArray[i] = TVShowsInGuide[i];
             }
@@ -121,10 +121,12 @@ public class ProcessWishlist {
     public static void printResultOnInterest(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
 
         for (TVShow tvShow : TVShowsInGuide) {
-            if (interestShows.contains(tvShow)) {
-                out.println(" The user can watch show: " + tvShow.getShowID());
-            } else {
-                out.println(" The user can not watch show: " + tvShow.getShowID());
+            if (tvShow != null) {
+                if (interestShows.contains(tvShow)) {
+                    out.println(" The user can watch show: " + tvShow.getShowID());
+                } else {
+                    out.println(" The user can not watch show: " + tvShow.getShowID());
+                }
             }
         }
     }
@@ -153,38 +155,36 @@ public class ProcessWishlist {
         } catch (FileNotFoundException e) {
             System.err.println(e.getStackTrace());
             out.println("files not found");
-        }catch (IOException i){
-            i.getMessage();
         }
 
-        //b)
-        generateArrayOfTVShows(TVGuideScanner, TVShowsInGuide);
-        Set<TVShow> tvShowsSet = new HashSet<>();
-        for (TVShow tvShow : TVShowsInGuide) {
-            if (tvShowsSet.add(tvShow) == true) {
-                tvShowsSet.add(tvShow);
-                TVGuide.addToStart(tvShow);
+            //b)
+            generateArrayOfTVShows(TVGuideScanner, TVShowsInGuide);
+            Set<TVShow> tvShowsSet = new HashSet<>();
+            for (TVShow tvShow : TVShowsInGuide) {
+                if (tvShowsSet.add(tvShow) == true) {
+                    tvShowsSet.add(tvShow);
+                    TVGuide.addToStart(tvShow);
+                }
             }
+
+            //c)
+            ArrayList<TVShow> wishListShows = new ArrayList<>();
+            ArrayList<TVShow> watchingShows = new ArrayList<>();
+
+            generateInterestShows(interestScanner, watchingShows, wishListShows);
+
+            fullFilTVShowsInformationFromTVGuide(wishListShows, TVShowsInGuide);
+            fullFilTVShowsInformationFromTVGuide(watchingShows, TVShowsInGuide);
+
+            adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, TVShowsInGuide);
+
+            printResultOnInterest(wishListShows, TVShowsInGuide);
+
+
+            //d)
+
+            //e)
+
         }
-
-        //c)
-        ArrayList<TVShow> wishListShows = new ArrayList<>();
-        ArrayList<TVShow> watchingShows = new ArrayList<>();
-
-        generateInterestShows(interestScanner, watchingShows, wishListShows);
-
-        fullFilTVShowsInformationFromTVGuide(wishListShows, TVShowsInGuide);
-        fullFilTVShowsInformationFromTVGuide(watchingShows, TVShowsInGuide);
-
-        adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, TVShowsInGuide);
-
-        printResultOnInterest(wishListShows, TVShowsInGuide);
-
-
-        //d)
-
-        //e)
-
-    }
 
 }
