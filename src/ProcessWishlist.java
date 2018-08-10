@@ -101,7 +101,13 @@ public class ProcessWishlist {
         for (TVShow tvShow : TVShowsInGuide) {
             if (tvShow != null) {
                 if (interestShows.stream().filter(o -> o.getShowID().equals(tvShow.getShowID())).findFirst().isPresent()) {
-                    interestShows.set(interestShows.indexOf(interestShows.stream().filter(o -> o.getShowID().equals(tvShow.getShowID())))+1, tvShow);
+                    int index =0;
+                    for (TVShow tvShowInInterest: interestShows){
+                        if(tvShowInInterest.getShowID().equals(tvShow.getShowID())) {
+                            index = interestShows.indexOf(tvShowInInterest);
+                        }
+                    }
+                    interestShows.set(index, tvShow);
                     out.println("match");
                 }
                 else{
@@ -112,7 +118,7 @@ public class ProcessWishlist {
     }
 
 
-    //TODO content of TVShowsInGuide not right
+    //TODO content of watching shows not right not right
 
     public static void adjustTVGuideToContainOnlyPossibleTVShows(ArrayList<TVShow> watchingShows, TVShow[] TVShowsInGuide) {
 
@@ -123,18 +129,18 @@ public class ProcessWishlist {
             for (TVShow tvShowInGuide : TVShowsInGuide) {
                 if(tvShowInGuide!=null) {
                     if ((tvShowInGuide.getStartTime() < highBound && tvShowInGuide.getStartTime() >= lowBound) || (tvShowInGuide.getEndTime() > lowBound && tvShowInGuide.getEndTime() <= highBound)) {
-                        tvShowInGuide = null; 
+                        tvShowInGuide = null; //this statement is never reached
                     }
                 }
             }
         }
-        int newLength = 0;
+        int newLength = 1;
         for (TVShow tvShowInGuide : TVShowsInGuide) {
             if (tvShowInGuide != null) {
                 newLength++;
             }
         }
-        TVShow[] tempArray = new TVShow[newLength+1];
+        TVShow[] tempArray = new TVShow[newLength];
         for (int i = 1; i < TVShowsInGuide.length; i++) {
             if (TVShowsInGuide[i] != null) {
                 tempArray[i] = TVShowsInGuide[i];
@@ -164,7 +170,7 @@ public class ProcessWishlist {
         // a)
         ShowList TVGuide = new ShowList();
         ShowList interest = new ShowList();
-        TVShow[] TVShowsInGuide = new TVShow[1000];
+        TVShow[] TVShowsInGuide = new TVShow[20];
 
         File interestFile = new File("Interest.txt"); //TODO should paths be a string variable from input?
         File TVGuideFile = new File("TVGuide.txt");
@@ -196,7 +202,7 @@ public class ProcessWishlist {
             ArrayList<TVShow> wishListShows = new ArrayList<>();
             ArrayList<TVShow> watchingShows = new ArrayList<>();
 
-            generateInterestShows(interestScanner, watchingShows, wishListShows);
+            generateInterestShows(interestScanner, wishListShows, watchingShows);
 
             fullFilTVShowsInformationFromTVGuide(wishListShows, TVShowsInGuide);
             fullFilTVShowsInformationFromTVGuide(watchingShows, TVShowsInGuide);
