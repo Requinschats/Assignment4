@@ -1,7 +1,5 @@
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 import java.util.*;
 import java.util.Set;
@@ -18,10 +16,8 @@ public class ProcessWishlist {
         double startTime = 0;
         double endTime = 0;
         while (scanner.hasNextLine()) {
-            out.println("line count: "+lineCount);
             line = scanner.nextLine();
             if (lineCount % 4 == 0) {
-                out.println("line: "+line);
                 showID = line.substring(0, line.indexOf(" "));
                 showName = line.substring(line.indexOf(" "), line.length());
                 lineCount++;
@@ -108,17 +104,13 @@ public class ProcessWishlist {
                         }
                     }
                     interestShows.set(index, tvShow);
-                    out.println("match");
                 }
                 else{
-                    out.println("not a match");
+                    out.print("");
                 }
             }
         }
     }
-
-
-    //TODO content of watching shows not right not right
 
     public static void adjustTVGuideToContainOnlyPossibleTVShows(ArrayList<TVShow> watchingShows, TVShow[] TVShowsInGuide) {
 
@@ -150,7 +142,7 @@ public class ProcessWishlist {
     }
 
     public static void printResultOnInterest(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
-
+out.println();
         for (TVShow tvShow : TVShowsInGuide) {
             if (tvShow != null) {
                 if (interestShows.contains(tvShow)) {
@@ -179,9 +171,7 @@ public class ProcessWishlist {
         Scanner interestScanner = null;
 
         try {
-            out.println(TVGuideFile.getAbsolutePath());
             TVGuideScanner = new Scanner(TVGuideFile);
-            out.println("good");
             interestScanner = new Scanner(interestFile);
         } catch (FileNotFoundException e) {
             System.err.println(e.getStackTrace());
@@ -212,9 +202,9 @@ public class ProcessWishlist {
             printResultOnInterest(wishListShows, TVShowsInGuide);
 
 
-            //d)
+            //d) TODO
 
-            //e)
+            //e) TODO
 
         }
 
