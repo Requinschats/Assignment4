@@ -134,7 +134,7 @@ public class ProcessWishlist {
                 }
             }
         }
-        int newLength = 1;
+/*        int newLength = 1;
         for (TVShow tvShowInGuide : TVShowsInGuide) {
             if (tvShowInGuide != null) {
                 newLength++;
@@ -146,7 +146,7 @@ public class ProcessWishlist {
                 tempArray[i] = TVShowsInGuide[i];
             }
         }
-        TVShowsInGuide = Arrays.copyOf(tempArray, newLength);
+        TVShowsInGuide = Arrays.copyOf(tempArray, newLength);*/
     }
 
     public static void printResultOnInterest(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
