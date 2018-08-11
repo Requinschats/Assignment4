@@ -124,11 +124,11 @@ public class ShowList {
 	}
 	
 	// l) find method
-	public ShowNode find(String showIDsearched) {
+	public ShowNode find(String showIDsearched) throws NullPointerException {
 		numIterations = 0;
 		ShowNode found = head;
 		while (found.aShow.getShowID() != showIDsearched) {
-			numIterations++;									//TODO ADD NULLPOINTEREXCEPTION
+			numIterations++;
 			if (found.pointer == null) {
 				return null;
 			}
@@ -214,9 +214,4 @@ public class ShowList {
 		}
 
 	}
-
-
-
-
-
 }

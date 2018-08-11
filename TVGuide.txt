@@ -14,7 +14,7 @@ ABC21 Modern_Family
 S 21.00
 E 21.30
 
-PBS21 Wonders_Of_Mexico
+PBS2 Wonders_Of_Mexico
 S 21.00
 E 22.00
 

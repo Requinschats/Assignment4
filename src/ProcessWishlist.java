@@ -123,10 +123,11 @@ public class ProcessWishlist {
 			for (TVShow tvShowInGuide : TVShowsInGuide) {
 				if(tvShowInGuide!=null) {
 					if ((tvShowInGuide.getStartTime() < highBound && tvShowInGuide.getStartTime() >= lowBound) || (tvShowInGuide.getEndTime() > lowBound && tvShowInGuide.getEndTime() <= highBound)) {
-						TVShowsInGuide[Arrays.asList(TVShowsInGuide).indexOf(tvShowInGuide)] = null; //this statement is never reached
+						TVShowsInGuide[Arrays.asList(TVShowsInGuide).indexOf(tvShowInGuide)] = null;
 					}
 				}
 			}
+
 		}
 		/*        int newLength = 1;
         for (TVShow tvShowInGuide : TVShowsInGuide) {
@@ -144,20 +145,28 @@ public class ProcessWishlist {
 	}
 
 	public static void printResultOnInterest(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
-		out.println();
-		for (TVShow tvShow : TVShowsInGuide) {
-			if (tvShow != null) {
-				if (interestShows.contains(tvShow)) {
-					out.println(" The user can watch show: " + tvShow.getShowID());
-				} else {
-					out.println(" The user can not watch show: " + tvShow.getShowID());
-				}
-			}
-		}
+	    out.println();
+        List<TVShow> toRemove = new ArrayList<TVShow>();
+		for(TVShow wishListShow: interestShows) {
+            for (int i = 0; i < TVShowsInGuide.length; i++) {
+                if (TVShowsInGuide[i] == wishListShow){
+                    out.println("The user can watch the show: " + wishListShow.getShowID() + " as he/she is not watching anything else during that time.");
+                    toRemove.add(wishListShow);
+                }
+
+            }
+        }
+        interestShows.removeAll(toRemove);
+        for(TVShow wishListShow: interestShows) {
+            if(wishListShow.getShowName() !=null){
+                wishListShow.isOnSameTime();
+            }
+
+        }
 	}
 
 	//TODO
-	public static String findShowbyID(ShowList interest) {		// input file = Interest.txt
+	public static String findShowbyID(ShowList interest) throws NullPointerException {		// input file = Interest.txt
 		out.println();
 		Scanner keyIn = new Scanner(System.in);
 		int count = 0;
@@ -250,8 +259,10 @@ public class ProcessWishlist {
 		printResultOnInterest(wishListShows, TVShowsInGuide);
 
 
-		//d) 
-		findShowbyID(interest);
+		//d)
+
+            findShowbyID(interest);
+
 		findShowbyID(interest);
 		findShowbyID(interest);
 		findShowbyID(interest);
