@@ -60,7 +60,7 @@ public class TVShow implements Watchable, Cloneable {
 		this.showID = newShowID;
 	}
 
-	// c) clone method --> NOT CORRECT
+	//TODO c) clone method --> NOT CORRECT
 	public TVShow clone() {
 		Scanner scanner = new Scanner(System.in);
 		String newShowID;
