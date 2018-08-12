@@ -144,10 +144,10 @@ public class ProcessWishlist {
         TVShowsInGuide = Arrays.copyOf(tempArray, newLength);*/
 	}
 
-	public static void printResultOnInterest(ArrayList<TVShow> interestShows, TVShow[] TVShowsInGuide) {
+	public static void printResultOnInterest(ArrayList<TVShow> wishlistShows, TVShow[] TVShowsInGuide, ArrayList<TVShow> watchinShows) {
 	    out.println();
         List<TVShow> toRemove = new ArrayList<TVShow>();
-		for(TVShow wishListShow: interestShows) {
+		for(TVShow wishListShow: wishlistShows) {
             for (int i = 0; i < TVShowsInGuide.length; i++) {
                 if (TVShowsInGuide[i] == wishListShow){
                     out.println("The user can watch the show: " + wishListShow.getShowID() + " as he/she is not watching anything else during that time.");
@@ -156,17 +156,38 @@ public class ProcessWishlist {
 
             }
         }
-        interestShows.removeAll(toRemove);
-        for(TVShow wishListShow: interestShows) {
+
+        wishlistShows.removeAll(toRemove);
+        for(TVShow wishListShow: wishlistShows) {
             if(wishListShow.getShowName() !=null){
-                wishListShow.isOnSameTime();
+                out.println("The user can not watch the show: "+ wishListShow.getShowID() + showSuffix(wishListShow, watchinShows));
             }
 
         }
 	}
 
+	public static String showSuffix (TVShow wishListShow, ArrayList<TVShow> watchingShows) {
+
+        double lowBound = wishListShow.getStartTime();
+        double highBound = wishListShow.getEndTime();
+
+        for (TVShow watchingShow : watchingShows) {
+            if (watchingShow != null) {
+                if (wishListShow.getStartTime() == watchingShow.getStartTime()) {
+                    return (" as he/she will begin watching another show at the same time.");
+                } else if (wishListShow.getStartTime() < watchingShow.getEndTime() && wishListShow.getStartTime() >= watchingShow.getStartTime()) {
+                    return (" as he/she is not finished with another show he/she is watching.");
+                } else if (wishListShow.getEndTime() > watchingShow.getStartTime() && wishListShow.getEndTime() <= watchingShow.getEndTime()) {
+                    return (" as he/she is not finished with another show he/she is watching.");
+                }
+
+            }
+        }
+        return (" this show or the creators of this program are lost.");
+    }
+
 	//TODO
-	public static String findShowbyID(ShowList interest) throws NullPointerException {		// input file = Interest.txt
+	public static String findShowbyID(ShowList interest) throws NullPointerException {	// input file = Interest.txt
 		out.println();
 		Scanner keyIn = new Scanner(System.in);
 		int count = 0;
@@ -256,7 +277,7 @@ public class ProcessWishlist {
 
 		adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, TVShowsInGuide);
 
-		printResultOnInterest(wishListShows, TVShowsInGuide);
+		printResultOnInterest(wishListShows, TVShowsInGuide, watchingShows);
 
 
 		//d)
