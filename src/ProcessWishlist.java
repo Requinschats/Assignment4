@@ -129,19 +129,6 @@ public class ProcessWishlist {
 			}
 
 		}
-		/*        int newLength = 1;
-        for (TVShow tvShowInGuide : TVShowsInGuide) {
-            if (tvShowInGuide != null) {
-                newLength++;
-            }
-        }
-        TVShow[] tempArray = new TVShow[newLength];
-        for (int i = 1; i < TVShowsInGuide.length; i++) {
-            if (TVShowsInGuide[i] != null) {
-                tempArray[i] = TVShowsInGuide[i];
-            }
-        }
-        TVShowsInGuide = Arrays.copyOf(tempArray, newLength);*/
 	}
 
 	public static void printResultOnInterest(ArrayList<TVShow> wishlistShows, TVShow[] TVShowsInGuide, ArrayList<TVShow> watchinShows) {
@@ -156,8 +143,6 @@ public class ProcessWishlist {
 
             }
         }
-
-        //commentaire
 
         wishlistShows.removeAll(toRemove);
         for(TVShow wishListShow: wishlistShows) {
@@ -242,7 +227,7 @@ public class ProcessWishlist {
 		// a)
 		ShowList TVGuide = new ShowList();
 		ShowList interest = new ShowList();
-		TVShow[] TVShowsInGuide = new TVShow[20];
+		TVShow[] TVShowsInGuide = new TVShow[200];
 
 		File interestFile = new File("Interest.txt"); //TODO should paths be a string variable from input?
 		File TVGuideFile = new File("TVGuide.txt");
@@ -260,9 +245,12 @@ public class ProcessWishlist {
 
 		//b)
 		generateArrayOfTVShows(TVGuideScanner, TVShowsInGuide);
-		Set<TVShow> tvShowsSet = new HashSet<>();
+		out.println(TVShowsInGuide[1]);
+		out.println(TVShowsInGuide[2]);
+		out.println(TVShowsInGuide[1] == TVShowsInGuide[2]);
+		HashSet<TVShow> tvShowsSet = new HashSet<>();
 		for (TVShow tvShow : TVShowsInGuide) {
-			if (tvShowsSet.add(tvShow) == true) {
+			if (!tvShowsSet.contains(tvShow) && tvShow!=null) {
 				tvShowsSet.add(tvShow);
 				TVGuide.addToStart(tvShow);
 			}
