@@ -170,8 +170,10 @@ public class TVShow implements Watchable, Cloneable {
 			if(this.startTime != objTVShow.startTime) {
 			return false;
 		}
-			if(this.showName != objTVShow.showName){
-			return false;
+		if(objTVShow.showName!=null && this.showName !=null) {
+			if (!objTVShow.showName.equals(this.showName)) {
+				return false;
+			}
 		}
 		return true;
 	}
