@@ -14,6 +14,7 @@
 //--------------------------------------------------------------------
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
@@ -61,22 +62,9 @@ public class ProcessWishlist {
 
 	}
 
-	public static void suppressDuplicatesTVShows(TVShow[] TVShows){
-		Set<TVShow> tvShowsSet = new HashSet<>();
-		for(int i=0; i<TVShows.length; i++) {
-			if(TVShows[i]!=null){
-				if (tvShowsSet.contains(TVShows[i])) {
-					TVShows[i] = null;
-				} else {
-					tvShowsSet.add(TVShows[i]);
-				}
-			}
-		}
-	}
-
 	/**
 	 * This method generates an array list of interestShows.
-	 * @param scanner A scanner object.
+	 * @param scanner. A scanner object.
 	 * @param watchingShows. An ArrayList of shows being watched.
 	 * @param interestShows. An ArrayList of shows which bring interest.
 	 */
@@ -189,7 +177,6 @@ public class ProcessWishlist {
 	 * @param TVShowsInGuide. Array of TVShow objects.
 	 * @param watchinShows. ArrayList of TVShow objects.
 	 */
-
 	public static void printResultOnInterest(ArrayList<TVShow> wishlistShows, TVShow[] TVShowsInGuide, ArrayList<TVShow> watchinShows) {
 	    out.println();
         List<TVShow> toRemove = new ArrayList<TVShow>();
@@ -241,19 +228,22 @@ public class ProcessWishlist {
 	 * @return A String holding the name of the show and the number of iterations.
 	 * @throws NullPointerException
 	 */
-		public static String findShowbyID(ShowList interest) throws NullPointerException {	// input file = Interest.txt
+		public static String findShowbyID(ArrayList<TVShow> interestShows) throws NullPointerException {	// input file = Interest.txt
 			out.println();
 			Scanner keyIn = new Scanner(System.in);
-			int count = 0;
-			out.print("Please enter a TV Show ID for searching: ");
+			out.print("Please enter a TV Show ID for searching:");
 			String show = keyIn.next();
-			keyIn.close();
-			if (interest.find(show) != null) {
-				count = interest.getNumIterations();
-				return ("The TV show you have entered through "+show+" has been found after "+count+" interations.");
+			
+			int counter = 1;
+			for (int i = 0 ; i < interestShows.size(); i++ ) {
+				if (interestShows.get(i).getShowID() == show) {
+					return ("The TV show you have entered through "+show+" has been found after "+counter+" interations.");
+				}
+				else 
+					counter++;
 			}
-			else 
-				return ("Nothing has been found with "+show+".");
+			keyIn.close();
+			return ("Nothing has been found with show ID: "+show+ ".");
 		}
 
 		/**
@@ -311,58 +301,57 @@ public class ProcessWishlist {
 			//IV)
 
 			// a)
-			ShowList TVGuide = new ShowList();
+			ShowList tvGuide = new ShowList();
 			ShowList interest = new ShowList();
-			TVShow[] TVShowsInGuide = new TVShow[200];
+			TVShow[] tvShowsInGuide = new TVShow[200];
 
 			File interestFile = new File("Interest.txt"); //TODO should paths be a string variable from input?
 			File TVGuideFile = new File("TVGuide.txt");
 
-			Scanner TVGuideScanner = null;
+			Scanner tvGuideScanner = null;
 			Scanner interestScanner = null;
 
 			try {
-				TVGuideScanner = new Scanner(TVGuideFile);
-				interestScanner = new Scanner(interestFile);
+				tvGuideScanner = new Scanner(new FileInputStream(TVGuideFile));
+				interestScanner = new Scanner(new FileInputStream(interestFile));
 			} catch (FileNotFoundException e) {
 				System.err.println(e.getStackTrace());
 				out.println("files not found");
 			}
 
 			//b)
-			generateArrayOfTVShows(TVGuideScanner, TVShowsInGuide);
-
-			Set<TVShow> tvShowsSet = new HashSet<>();
-			for (TVShow tvShow : TVShowsInGuide) {
+			generateArrayOfTVShows(tvGuideScanner, tvShowsInGuide);
+			out.println(tvShowsInGuide[1]);
+			out.println(tvShowsInGuide[2]);
+			out.println(tvShowsInGuide[1] == tvShowsInGuide[2]);
+			HashSet<TVShow> tvShowsSet = new HashSet<>();
+			for (TVShow tvShow : tvShowsInGuide) {
 				if (!tvShowsSet.contains(tvShow) && tvShow!=null) {
 					tvShowsSet.add(tvShow);
-					TVGuide.addToStart(tvShow);
+					tvGuide.addToStart(tvShow);
 				}
 			}
-
-			suppressDuplicatesTVShows(TVShowsInGuide);
 
 			//c)
 			ArrayList<TVShow> wishListShows = new ArrayList<>();
 			ArrayList<TVShow> watchingShows = new ArrayList<>();
 
-			generateInterestShows(interestScanner, wishListShows, watchingShows);
+			generateInterestShows(interestScanner,watchingShows, wishListShows);
 
-			fullFilTVShowsInformationFromTVGuide(wishListShows, TVShowsInGuide);
-			fullFilTVShowsInformationFromTVGuide(watchingShows, TVShowsInGuide);
+			fullFilTVShowsInformationFromTVGuide(wishListShows, tvShowsInGuide);
+			fullFilTVShowsInformationFromTVGuide(watchingShows, tvShowsInGuide);
 
-			adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, TVShowsInGuide);
+			adjustTVGuideToContainOnlyPossibleTVShows(watchingShows, tvShowsInGuide);
 
-			printResultOnInterest(wishListShows, TVShowsInGuide, watchingShows);
+			printResultOnInterest(wishListShows, tvShowsInGuide, watchingShows);
 
 
 			//d)
 
-	            findShowbyID(interest);
-
-			findShowbyID(interest);
-			findShowbyID(interest);
-			findShowbyID(interest);
+	        findShowbyID(wishListShows);
+			findShowbyID(wishListShows);
+			findShowbyID(wishListShows);
+			findShowbyID(wishListShows);
 
 			//e) TODO
 			

@@ -2,6 +2,14 @@ CBS20 Big_Brother
 S 20.00
 E 21.00
 
+CBS20 Big_Brother
+S 20.00
+E 21.00
+
+CBS20 Big_Brother
+S 20.00
+E 21.00
+
 NBC20 World_Of_Dance
 S 20.00
 E 22.00
@@ -14,7 +22,11 @@ ABC21 Modern_Family
 S 21.00
 E 21.30
 
-PBS2 Wonders_Of_Mexico
+PBS2 Wonders_Of_Mexico_MODIFIED
+S 21.00
+E 22.00
+
+PBS2 Wonders_Of_Mexico_MODIFIED
 S 21.00
 E 22.00
 
