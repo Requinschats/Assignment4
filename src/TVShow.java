@@ -31,6 +31,7 @@ public class TVShow implements Watchable, Cloneable {
 	private String showName; 		// Single word... if multiple they are separated by _
 	private double startTime;
 	private double endTime;
+	private TVShow obj;
 
 	// accessors
 
@@ -49,7 +50,7 @@ public class TVShow implements Watchable, Cloneable {
 	public double getStartTime() {
 		return startTime;
 	}
-
+	
 	/**
 	 * This accessor method allows the retrieval of the showID of a TVShow object.
 	 * @return showID. A String variable.
@@ -67,7 +68,7 @@ public class TVShow implements Watchable, Cloneable {
 	}
 
 	// mutators
-
+	
 	/**
 	 * This mutator method allows the assignment of the end time of a TVShow object.
 	 * @param endTime. A double variable.
@@ -108,7 +109,7 @@ public class TVShow implements Watchable, Cloneable {
 	 * @param startTime. Start time of TV Show, double variable, attribute of TVShow objects.
 	 * @param endTime. End time of TV Show, double variable, attribute of TVShow objects.
 	 */
-
+	
 	public TVShow(String showID, String showName, double startTime, double endTime) {
 		this.endTime = endTime;
 		this.showID = showID;
@@ -155,18 +156,33 @@ public class TVShow implements Watchable, Cloneable {
 	}
 
 	// d) equals method
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null){
+			return false;
+		}
+
+		TVShow objTVShow = (TVShow)obj;
+		if (this.endTime != objTVShow.endTime){
+			return false;
+		}
+			if(this.startTime != objTVShow.startTime) {
+			return false;
+		}
+		if(objTVShow.showName!=null && this.showName !=null) {
+			if (!objTVShow.showName.equals(this.showName)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * This equals method will return true if the calling object is equal to the one that's passed.
 	 * @param obj. A TVShow object, passed object.
 	 * @return True if everything is equal (not including showID), false otherwise.
 	 */
-	public boolean equals(TVShow obj) {
-		if (this.endTime == obj.endTime && this.showName == obj.showName && this.startTime == obj.startTime)
-			return true;
-		else 
-			return false;
-	}
-	
 
 	// e) isOnSameTime method
 	/**
@@ -184,5 +200,10 @@ public class TVShow implements Watchable, Cloneable {
 			return ("Different time");
 	}
 
-
+	@Override
+	public int hashCode() {
+		int result = 17;
+		result = 31 * result + showID.hashCode();
+		return result;
+	}
 }
